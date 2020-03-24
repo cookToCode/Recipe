@@ -1,6 +1,22 @@
 <?php 
     include ('db.php');
 
+    
+    function login($user, $pass){
+        global $db;
+        
+        $pass = sha1($pass);
+        $stmt = $db->prepare("SELECT username FROM Recipe_Login WHERE username = :user && password = :pass");   
+        
+        if($stmt->execute($binds) && $stmt->rowCount()>0){
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+        else{
+            return false;
+        }
+    }
+    
+    
     //Pulls the info from Recipe Table
     function getRecipes(){
         global $db;
