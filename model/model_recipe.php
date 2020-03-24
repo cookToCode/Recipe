@@ -1,6 +1,30 @@
 <?php 
     include ('db.php');
 
+    
+    function register($user, $pass){
+        global $db;
+        
+        $pass=sha1($pass);
+        
+        $stmt= $db->prepare('INSERT INTO Recipe_Login (username, password) VALUES (:user, :pass);');
+        
+        $binds = array(
+            ":user"=>$user,
+            ":pass"=>$pass
+        );
+        
+        if($stmt->execute($binds) && $stmt->rowCount()>0){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    
+    
+
+
     //Pulls the info from Recipe Table
     function getRecipes(){
         global $db;
